@@ -1,1 +1,33 @@
-404 idk
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 | Noxium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#120012',
+                        darker: '#0a000f',
+                        light: '#ffffff',
+                        purpleAccent: '#b57bff'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen flex items-center justify-center bg-darker text-light">
+    <div class="text-center px-6">
+        <h1 class="text-6xl md:text-8xl font-bold mb-4" style="text-shadow: 0 0 20px rgba(181,123,255,0.7);">404</h1>
+        <p class="text-xl text-gray-300 mb-8">The page you're looking for doesn't exist.</p>
+        <a href="/" class="px-6 py-3 rounded-lg text-lg font-bold border border-purpleAccent border-opacity-40 hover:border-opacity-80 transition-all" style="box-shadow: 0 0 15px rgba(181,123,255,0.4);">
+            Return Home
+        </a>
+    </div>
+</body>
+</html>
