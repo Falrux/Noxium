@@ -115,7 +115,7 @@ installroblox() {
                     sleep 2
                     echo -ne "."
                 done
-                echo -e " ${GREEN}✓${RESET}"
+                echo
                 
                 pkill -f "Roblox" 2>/dev/null
                 sleep 2
@@ -127,7 +127,7 @@ installroblox() {
                     sleep 2
                     echo -ne "."
                 done
-                echo -e " ${GREEN}✓${RESET}"
+                echo
 
                 pkill -f "Roblox" 2>/dev/null
                 sleep 2
