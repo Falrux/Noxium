@@ -22,7 +22,7 @@ noxdir="$HOME/Documents/Noxium"
 execdir="$noxdir/Executable"
 workdir="$noxdir/Workspace"
 confdir="$noxdir/Config"
-tmp="$HOME/tmp"
+tmp="/tmp"
 
 if [ -z "$appPath" ] || [ -z "$noxdir" ] || [ -z "$execdir" ]; then
     echo "Error"
@@ -97,6 +97,10 @@ installroblox() {
     echo
 
     arch=$(uname -m)
+    
+    if [ ! -d "$tmp" ]; then
+        mkdir -p "$tmp"
+    fi
     
     if [ "$arch" == "arm64" ]; then
         step "Downloading Roblox..."
