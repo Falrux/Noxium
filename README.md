@@ -1,0 +1,21 @@
+<img width="3000" height="1000" alt="Noxium Banner Image" src="https://github.com/user-attachments/assets/8397ccd0-b4c5-43b0-b83d-edee1cada9ee" />
+<div align="center">
+
+# Noxium
+
+**Roblox MacOS External**
+
+</div>
+
+> [!IMPORTANT]  
+> This repo **ONLY** contains the websites source code (UseNoxium.xyz). None of it contains the actual source of Noxium.
+
+
+## Install Script
+```bash
+curl -fsSL https://usenoxium.xyz/other/install.sh | bash
+```
+
+<div align="center">
+  <strong>REPORT CRASHES TO @falrux ON DISCORD OR OPEN AN ISSUE IN THIS REPO!</strong>
+</div>
