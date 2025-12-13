@@ -11,7 +11,7 @@
 > This repo **ONLY** contains the websites src (UseNoxium.xyz). None of it contains the actual src of Noxium.
 
 
-## Install Script
+## Install Script:
 ```bash
 curl -fsSL https://usenoxium.xyz/other/install.sh | bash
 ```
