@@ -1,7 +1,7 @@
 <img width="3000" height="1000" alt="Noxium Banner Image" src="https://github.com/user-attachments/assets/8397ccd0-b4c5-43b0-b83d-edee1cada9ee" />
 <div align="center">
 
-# Noxium
+# Noxium (DOCS)
 
 **Roblox MacOS External**
 
