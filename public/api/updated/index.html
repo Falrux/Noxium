@@ -1,1 +1,33 @@
-true
+<!DOCTYPE html>
+<body>
+<script>
+(async () => {
+    try {
+        const weaoRes = await fetch("https://weao.xyz/api/versions/current", {
+            headers: {
+                "User-Agent": "WEAO-3PService"
+            }
+        });
+        const weaoData = await weaoRes.json();
+
+        // weao hash check
+        const weaoMac = weaoData.Mac;
+
+        // noxium hash check
+        const noxiumRes = await fetch("https://www.usenoxium.xyz/api/macversionrblx");
+        const noxiumHtml = await noxiumRes.text();
+
+        const match = noxiumHtml.match(/version-[a-f0-9]+/i);
+        const noxiumMac = match ? match[0] : null;
+
+        document.body.textContent =
+            weaoMac && noxiumMac && weaoMac === noxiumMac
+                ? "true"
+                : "false";
+
+    } catch (e) {
+        document.body.textContent = "false";
+    }
+})();
+</script>
+</body>
