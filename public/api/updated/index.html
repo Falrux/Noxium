@@ -1,32 +1,43 @@
 <!DOCTYPE html>
 <body>
 <script>
+const https = require('https');
+
+function fetJSN(url, headers = {}) {
+    return new Promise((resolve, reject) => {
+        const options = { headers };
+        https.get(url, options, res => {
+            let data = '';
+            res.on('data', chunk => data += chunk);
+            res.on('end', () => resolve(JSON.parse(data)));
+        }).on('error', reject);
+    });
+}
+
+function fetTXT(url) {
+    return new Promise((resolve, reject) => {
+        https.get(url, res => {
+            let data = '';
+            res.on('data', chunk => data += chunk);
+            res.on('end', () => resolve(data));
+        }).on('error', reject);
+    });
+}
+
 (async () => {
     try {
-        const weaoRes = await fetch("https://weao.xyz/api/versions/current", {
-            headers: {
-                "User-Agent": "WEAO-3PService"
-            }
+        const weaoDATA = await fetJSN('https://weao.xyz/api/versions/current', {
+            'User-Agent': 'WEAO-3PService'
         });
-        const weaoData = await weaoRes.json();
+        const weaoMAC = weaoDATA.Mac;
 
-        // weao hash check
-        const weaoMac = weaoData.Mac;
+        const noxHTML = await fetTXT('https://www.usenoxium.xyz/api/macversionrblx');
+        const match = noxHTML.match(/version-[a-f0-9]+/i);
+        const noxiumMAC = match ? match[0] : null;
 
-        // noxium hash check
-        const noxiumRes = await fetch("https://www.usenoxium.xyz/api/macversionrblx");
-        const noxiumHtml = await noxiumRes.text();
-
-        const match = noxiumHtml.match(/version-[a-f0-9]+/i);
-        const noxiumMac = match ? match[0] : null;
-
-        document.body.textContent =
-            weaoMac && noxiumMac && weaoMac === noxiumMac
-                ? "true"
-                : "false";
-
+        console.log((weaoMAC && noxiumMAC && weaoMAC === noxiumMAC) ? 'true' : 'false');
     } catch (e) {
-        document.body.textContent = "false";
+        console.log('false');
     }
 })();
 </script>
