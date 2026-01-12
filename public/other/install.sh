@@ -49,7 +49,7 @@ progress_bar() {
 }
 
 checkversions() {
-    step "Checking versions"
+    step "Checking versions..."
     ternal_version=$(curl -s "$noxapi" 2>/dev/null)
     ro_versions=$(curl -s "$robloxapi" 2>/dev/null)
     ro_version=$(echo "$ro_versions" | grep -o '"clientVersionUpload":"[^"]*"' | cut -d'"' -f4)
@@ -73,6 +73,9 @@ getents() {
 
 installroblox() {
     step "Checking for Roblox..."
+
+    pkill -f "Roblox" 2>/dev/null >/dev/null
+    pkill -f "RobloxPlayer" 2>/dev/null >/dev/null
 
     if [ -d "/Applications/RobloxPlayer.app" ]; then
         rm -rf "/Applications/RobloxPlayer.app" 2>/dev/null
@@ -123,14 +126,14 @@ installroblox() {
 }
 
 setupdirs() {
-    step "Creating directories"
+    step "Creating directories..."
     mkdir -p "$execdir" "$workdir" "$confdir" 2>/dev/null
     ok "Completed"
     echo
 }
 
 installexecs() {
-    step "Downloading executables"
+    step "Downloading executables..."
 
     if [ -n "$execdir" ] && [ -d "$execdir" ]; then
         rm -rf "$execdir"/* 2>/dev/null
@@ -248,12 +251,16 @@ signroblox
 cleanup
 pintodock
 
-step "Exiting"
+echo
+step "Exiting..."
+ok "Completed"
 
 echo
 echo
-echo
-ok "Completed"
+ok "UseNoxium.xyz"
 echo -e "${BOLD}${DARK_PURPLE}  Noxium MacOS Install Script Made By: @needrose${RESET}"
 echo -e "${BOLD}${DARK_PURPLE}  Noxium MacOS Made By: @falrux/unknowingly_exists${RESET}"
 echo
+
+open "/Applications/Roblox.app" 2>/dev/null >/dev/null &
+open "/Applications/Noxium.app" 2>/dev/null >/dev/null &
