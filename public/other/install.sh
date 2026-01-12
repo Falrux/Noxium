@@ -11,7 +11,6 @@ CYAN="\033[1;36m"
 GREEN="\033[0;32m"
 RESET="\033[0m"
 BOLD="\033[1m"
-LARGE="\033[2J\033[0;0H"
 
 noxapi="https://www.usenoxium.xyz/api/macversionrblx"
 robloxapi="https://clientsettingscdn.roblox.com/v2/client-version/MacPlayer"
@@ -34,14 +33,6 @@ ok() { echo -e "${BOLD}${GREEN}✓ $1${RESET}"; }
 warn() { echo -e "${BOLD}${PURPLE}! $1${RESET}"; }
 err() { echo -e "${BOLD}${CYAN}✘ $1${RESET}"; }
 
-progress() {
-    msg=$1
-    echo -ne "${PURPLE}${msg}...${RESET}"
-}
-
-donep() {
-    echo -e " ${PINK}done${RESET}"
-}
 
 progress_bar() {
     local current=$1
@@ -83,14 +74,11 @@ getents() {
 installroblox() {
     step "Checking for Roblox..."
 
-    found=false
     if [ -d "/Applications/RobloxPlayer.app" ]; then
         rm -rf "/Applications/RobloxPlayer.app" 2>/dev/null
-        found=true
     fi
     if [ -d "/Applications/Roblox.app" ]; then
         rm -rf "/Applications/Roblox.app" 2>/dev/null
-        found=true
     fi
 
     ok "Completed"
@@ -104,27 +92,27 @@ installroblox() {
     
     if [ "$arch" == "arm64" ]; then
         step "Downloading Roblox..."
-        curl -L "https://setup.rbxcdn.com/mac/arm64/version-d0722e371e604117-RobloxPlayer.zip" -o "$tmp/RobloxPlayer.zip" 2>/dev/null >/dev/null
-        echo
+        curl -L "https://setup.rbxcdn.com/mac/arm64/${ro_version}-RobloxPlayer.zip" -o "$tmp/RobloxPlayer.zip" 2>/dev/null >/dev/null &
+        curl_pid=$!
+        for i in {1..9}; do
+            progress_bar $i 10
+            sleep 0.1
+        done
+        progress_bar 10 10
+        wait $curl_pid
         ok "Completed"
     else
-        step "Downloading Roblox..."
-        curl -L "https://setup.rbxcdn.com/mac/version-d0722e371e604117-RobloxPlayer.zip" -o "$tmp/RobloxPlayer.zip" 2>/dev/null >/dev/null
-        echo
-        echo "you're on intel so uhhh, expect issues..."
-        echo
-        ok "Completed"
+        err "Noxium is NOT supported on intel devices. Please run Noxium in an Arm64 VM or wait for Noxium to have native intel support."
+        exit 1
     fi
 
     if [ -f "$tmp/RobloxPlayer.zip" ]; then
         echo
         step "Installing Roblox..."
         unzip -o -q "$tmp/RobloxPlayer.zip" 2>/dev/null
-        echo "nzip done"
         if [ -d "./RobloxPlayer.app" ]; then
             mv "./RobloxPlayer.app" "/Applications/Roblox.app" 2>/dev/null
         else
-            echo -e " ${CYAN}✘${RESET}"
             err "Failed to extract Roblox"
         fi
         rm -f "$tmp/RobloxPlayer.zip"
@@ -149,7 +137,6 @@ installexecs() {
     fi
 
     zip_name="$execdir/noxium.zip"
-    echo -ne "${DARK_PURPLE}Downloading...${RESET}"
     for i in {1..10}; do
         progress_bar $i 10
         sleep 0.05
@@ -181,7 +168,6 @@ installapp() {
     fi
 
     zip_name="./Noxium.zip"
-    echo -ne "${DARK_PURPLE}Downloading...${RESET}"
     for i in {1..10}; do
         progress_bar $i 10
         sleep 0.05
@@ -250,7 +236,6 @@ pintodock() {
 echo -e "${BOLD}${PURPLE}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬${RESET}"
 echo -e "${BOLD}${DARK_PURPLE}       NOXIUM INSTALLER           ${RESET}"
 echo -e "${BOLD}${PURPLE}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬${RESET}"
-echo
 echo
 
 setupdirs
